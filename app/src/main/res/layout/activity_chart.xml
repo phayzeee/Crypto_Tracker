@@ -24,21 +24,13 @@
             android:id="@+id/toolbar_title" />
     </androidx.appcompat.widget.Toolbar>
 
-    <WebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@+id/chartText"
-        android:layout_marginTop="50dp"
-        />
-
     <TextView
         android:id="@+id/chartText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/wallet_connect"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-
+        android:layout_marginTop="60dp"
         android:padding="8dp"
         android:textColor="@color/white"
         android:textSize="24dp"
@@ -49,15 +41,26 @@
         android:id="@+id/percentchange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:background="@color/black_shade_2"
         android:layout_marginStart="8dp"
         android:padding="8dp"
+        android:layout_below="@id/wallet_connect"
         android:layout_toRightOf="@+id/chartText"
         android:textColor="@color/white"
         android:textSize="24dp"
         android:textStyle="bold"
         tools:text="HELLO" />
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/chartText"
+        android:layout_marginTop="50dp"
+        />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -119,8 +122,9 @@
         android:id="@+id/wallet_connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/my_toolbar"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:text="Connect Wallet"
         android:textAllCaps="false" />
