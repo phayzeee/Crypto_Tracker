@@ -23,8 +23,7 @@ class ChartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
- //       setSupportActionBar(findViewById(R.id.my_toolbar))
-        supportActionBar?.hide()
+         supportActionBar?.hide()
 
         val dialog = Dialog(this)
         name = intent.extras?.getString("coin_name").toString()

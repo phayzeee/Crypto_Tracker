@@ -10,7 +10,7 @@ import android.view.Window
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptotracker.R
-import com.example.cryptotracker.apiresponse.CryptoCurrency
+import com.example.cryptotracker.apiresponse.TopCoinsResponse.CryptoCurrency
 import kotlinx.android.synthetic.main.currency_rv_item.view.*
 import java.text.DecimalFormat
 

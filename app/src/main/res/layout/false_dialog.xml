@@ -22,7 +22,8 @@
         android:layout_toLeftOf="@+id/idTVCurrencyRate"
         android:padding="3dp"
         android:textSize="28dp"
-        android:text="Abi itna bara developer nhi bana"
+        android:text="This feature is not implemented yet."
+        android:gravity="center"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
