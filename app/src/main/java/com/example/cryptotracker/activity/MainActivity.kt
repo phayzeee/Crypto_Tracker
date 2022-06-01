@@ -1,16 +1,16 @@
 package com.example.cryptotracker.activity
 
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptotracker.*
+import com.example.cryptotracker.R
 import com.example.cryptotracker.abstract.SharedPreference
 import com.example.cryptotracker.abstract.SwipeToDelete
 import com.example.cryptotracker.abstract.SwipeToRight
@@ -19,7 +19,6 @@ import com.example.cryptotracker.adapter.TrendingRVAdapter
 import com.example.cryptotracker.apiresponse.TopCoinsResponse.CryptoApiResponse
 import com.example.cryptotracker.apiresponse.TopCoinsResponse.CryptoCurrency
 import com.example.cryptotracker.apiresponse.TrendingCoinsResponse.Coin
-import com.example.cryptotracker.apiresponse.TrendingCoinsResponse.Item
 import com.example.cryptotracker.apiresponse.TrendingCoinsResponse.TrendingGeckoResponse
 import com.example.cryptotracker.network.RetrofitInstance
 import com.example.cryptotracker.network.apiService
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         currencyRVAdapter = CurrencyRVAdapter()
         trendingRVAdapter = TrendingRVAdapter(this)
 
-        getCoins()
+
 
 
         currencyRVAdapter.setOnItemClickListener(object : CurrencyRVAdapter.onItemClickListener {
@@ -61,12 +60,33 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
+        topCoins.setOnClickListener {
+            no_content.visibility = View.GONE
+            idRVCurrencies.visibility = View.VISIBLE
+            topCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.black_shade_2)
+            tlCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
+            //mvCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             getCoins()
         }
 
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            when {
+                topCoins.isPressed -> {
+                    getCoins()
+                }
+                tlCoins.isPressed -> {
+                    getTrendingCoins()
+                }
+            }
+        }
+
         tlCoins.setOnClickListener {
+            no_content.visibility = View.GONE
+            idRVCurrencies.visibility = View.VISIBLE
+            tlCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.black_shade_2)
+            topCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
+          //  mvCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             getTrendingCoins()
         }
 
@@ -77,8 +97,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getCoins() {
 
+        showProgressBar()
         val request = RetrofitInstance.buildService(apiService::class.java)
-
         val call = request.getCurrency()
 
         call.enqueue(object : Callback<CryptoApiResponse> {
@@ -89,7 +109,9 @@ class MainActivity : AppCompatActivity() {
                             val data= response.body()
                             setupUI(data!!.data.cryptoCurrencyList)
                             sharedPreference.setBTCPrice(data.data.cryptoCurrencyList[0].quotes[0].price)
+                            hideProgressBar()
                         } else {
+                            hideProgressBar()
                         }
                     } else {
                         Toast.makeText(this@MainActivity,"Error",Toast.LENGTH_SHORT).show()
@@ -109,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getTrendingCoins() {
-
+        showProgressBar()
         val request = RetrofitInstance.buildService2(apiService::class.java)
 
         val call = request.getTrendingCoins()
@@ -121,8 +143,9 @@ class MainActivity : AppCompatActivity() {
                         if (response.code() == 200) {
                             val data= response.body()
                             setupTrendingUI(data!!.coins)
-
+                            hideProgressBar()
                         } else {
+                            hideProgressBar()
                         }
                     } else {
                         Toast.makeText(this@MainActivity,"Error",Toast.LENGTH_SHORT).show()
@@ -180,7 +203,13 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(idRVCurrencies)
 
     }
+    fun showProgressBar() {
+        spinkitlayout.visibility = View.VISIBLE
+    }
 
+    fun hideProgressBar(){
+        spinkitlayout.visibility = View.GONE
+    }
 
 
 }

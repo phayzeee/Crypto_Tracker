@@ -52,4 +52,6 @@ class TrendingRVAdapter(context: Context): RecyclerView.Adapter<TrendingRVAdapte
             rateTv.text = "$ " + df2.format(data.price_btc * sharedPreference.getBTCPrice()!!.toDouble())
         }
     }
+
+
 }
