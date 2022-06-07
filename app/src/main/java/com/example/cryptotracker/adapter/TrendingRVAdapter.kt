@@ -1,9 +1,12 @@
 package com.example.cryptotracker.adapter
 
+import android.app.Dialog
 import android.content.Context
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptotracker.R
@@ -51,6 +54,11 @@ class TrendingRVAdapter(context: Context): RecyclerView.Adapter<TrendingRVAdapte
             symbolTv.text = data.symbol
             rateTv.text = "$ " + df2.format(data.price_btc * sharedPreference.getBTCPrice()!!.toDouble())
         }
+    }
+
+    fun deleteItem(position: Int){
+        currencyRvModalArrayList.removeAt(position)
+        notifyDataSetChanged()
     }
 
 

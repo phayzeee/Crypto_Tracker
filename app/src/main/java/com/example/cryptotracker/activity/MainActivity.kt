@@ -4,7 +4,6 @@ package com.example.cryptotracker.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -45,17 +44,22 @@ class MainActivity : AppCompatActivity() {
         currencyRVAdapter = CurrencyRVAdapter()
         trendingRVAdapter = TrendingRVAdapter(this)
 
+        initListener()
+        swipeToRight()
+       // swipeToRightTrending()
 
+    }
 
+    private fun initListener(){
 
         currencyRVAdapter.setOnItemClickListener(object : CurrencyRVAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
 
-                    val intent = Intent(this@MainActivity, ChartActivity::class.java)
-                    intent.putExtra("sym_bol", currencyRVModelArrayList[position].symbol)
-                    intent.putExtra("coin_name", currencyRVModelArrayList[position].name)
-                    intent.putExtra("percentChange", currencyRVModelArrayList[position].quotes[0].percentChange1h)
-                    startActivity(intent)
+                val intent = Intent(this@MainActivity, ChartActivity::class.java)
+                intent.putExtra("sym_bol", currencyRVModelArrayList[position].symbol)
+                intent.putExtra("coin_name", currencyRVModelArrayList[position].name)
+                intent.putExtra("percentChange", currencyRVModelArrayList[position].quotes[0].percentChange1h)
+                startActivity(intent)
 
             }
         })
@@ -86,13 +90,9 @@ class MainActivity : AppCompatActivity() {
             idRVCurrencies.visibility = View.VISIBLE
             tlCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.black_shade_2)
             topCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
-          //  mvCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
+            //  mvCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             getTrendingCoins()
         }
-
-
-        swipeToRight()
-
     }
 
     private fun getCoins() {
@@ -179,12 +179,23 @@ class MainActivity : AppCompatActivity() {
         trendingRVModelArrayList.addAll(item)
         trendingRVAdapter.setTrendingList(trendingRVModelArrayList)
         idRVCurrencies.adapter = trendingRVAdapter
+        swipeToDeleteTrending()
     }
 
     private fun swipeToDelete() {
         val swipeToDelete = object : SwipeToDelete(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 currencyRVAdapter.deleteItem(viewHolder.adapterPosition)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeToDelete)
+        itemTouchHelper.attachToRecyclerView(idRVCurrencies)
+    }
+
+    private fun swipeToDeleteTrending() {
+        val swipeToDelete = object : SwipeToDelete(){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                trendingRVAdapter.deleteItem(viewHolder.adapterPosition)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDelete)
@@ -203,6 +214,8 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(idRVCurrencies)
 
     }
+
+
     fun showProgressBar() {
         spinkitlayout.visibility = View.VISIBLE
     }
