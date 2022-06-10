@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "533548793328",
+    "project_id": "crypto-tracker-19c32",
+    "storage_bucket": "crypto-tracker-19c32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533548793328:android:7f85df096121ad1d2c3135",
+        "android_client_info": {
+          "package_name": "com.example.cryptotracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533548793328-1lii1ppeqh8v8qc5s1sc9vh7oh6ffbd9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy2Vk0s1fIyBxMkdEekm7cRYQRLjgXkVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533548793328-1lii1ppeqh8v8qc5s1sc9vh7oh6ffbd9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533548793328:android:20aa127fd2d45e632c3135",
+        "android_client_info": {
+          "package_name": "com.example.cryptotracker.activity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533548793328-1lii1ppeqh8v8qc5s1sc9vh7oh6ffbd9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy2Vk0s1fIyBxMkdEekm7cRYQRLjgXkVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533548793328-1lii1ppeqh8v8qc5s1sc9vh7oh6ffbd9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
