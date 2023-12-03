@@ -45,12 +45,12 @@ class MainActivity : AppCompatActivity() {
         trendingRVAdapter = TrendingRVAdapter(this)
 
         initListener()
-        swipeToRight()
-       // swipeToRightTrending()
+     //   swipeToRight()
+        // swipeToRightTrending()
 
     }
 
-    private fun initListener(){
+    private fun initListener() {
 
         currencyRVAdapter.setOnItemClickListener(object : CurrencyRVAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
@@ -58,7 +58,10 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, ChartActivity::class.java)
                 intent.putExtra("sym_bol", currencyRVModelArrayList[position].symbol)
                 intent.putExtra("coin_name", currencyRVModelArrayList[position].name)
-                intent.putExtra("percentChange", currencyRVModelArrayList[position].quotes[0].percentChange1h)
+                intent.putExtra(
+                    "percentChange",
+                    currencyRVModelArrayList[position].quotes[0].percentChange1h
+                )
                 startActivity(intent)
 
             }
@@ -67,7 +70,8 @@ class MainActivity : AppCompatActivity() {
         topCoins.setOnClickListener {
             no_content.visibility = View.GONE
             idRVCurrencies.visibility = View.VISIBLE
-            topCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.black_shade_2)
+            topCoins.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.black_shade_2)
             tlCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             //mvCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             getCoins()
@@ -79,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 topCoins.isPressed -> {
                     getCoins()
                 }
+
                 tlCoins.isPressed -> {
                     getTrendingCoins()
                 }
@@ -88,7 +93,8 @@ class MainActivity : AppCompatActivity() {
         tlCoins.setOnClickListener {
             no_content.visibility = View.GONE
             idRVCurrencies.visibility = View.VISIBLE
-            tlCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.black_shade_2)
+            tlCoins.backgroundTintList =
+                ContextCompat.getColorStateList(this, R.color.black_shade_2)
             topCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             //  mvCoins.backgroundTintList = ContextCompat.getColorStateList(this, R.color.grey)
             getTrendingCoins()
@@ -102,11 +108,14 @@ class MainActivity : AppCompatActivity() {
         val call = request.getCurrency()
 
         call.enqueue(object : Callback<CryptoApiResponse> {
-            override fun onResponse(call: Call<CryptoApiResponse>, response: Response<CryptoApiResponse>) {
+            override fun onResponse(
+                call: Call<CryptoApiResponse>,
+                response: Response<CryptoApiResponse>
+            ) {
                 try {
                     if (response.body() != null) {
                         if (response.code() == 200) {
-                            val data= response.body()
+                            val data = response.body()
                             setupUI(data!!.data.cryptoCurrencyList)
                             sharedPreference.setBTCPrice(data.data.cryptoCurrencyList[0].quotes[0].price)
                             hideProgressBar()
@@ -114,17 +123,19 @@ class MainActivity : AppCompatActivity() {
                             hideProgressBar()
                         }
                     } else {
-                        Toast.makeText(this@MainActivity,"Error",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
 
-                    e.message?.let {Toast.makeText(this@MainActivity,it,Toast.LENGTH_SHORT).show() }
+                    e.message?.let {
+                        Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             override fun onFailure(call: Call<CryptoApiResponse>, t: Throwable) {
 
-                t.message?.let { Toast.makeText(this@MainActivity,it,Toast.LENGTH_SHORT).show() }
+                t.message?.let { Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show() }
             }
         })
 
@@ -137,90 +148,107 @@ class MainActivity : AppCompatActivity() {
         val call = request.getTrendingCoins()
 
         call.enqueue(object : Callback<TrendingGeckoResponse> {
-            override fun onResponse(call: Call<TrendingGeckoResponse>, response: Response<TrendingGeckoResponse>) {
+            override fun onResponse(
+                call: Call<TrendingGeckoResponse>,
+                response: Response<TrendingGeckoResponse>
+            ) {
                 try {
                     if (response.body() != null) {
                         if (response.code() == 200) {
-                            val data= response.body()
+                            val data = response.body()
                             setupTrendingUI(data!!.coins)
                             hideProgressBar()
                         } else {
                             hideProgressBar()
                         }
                     } else {
-                        Toast.makeText(this@MainActivity,"Error",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
 
-                    e.message?.let {Toast.makeText(this@MainActivity,it,Toast.LENGTH_SHORT).show() }
+                    e.message?.let {
+                        Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             override fun onFailure(call: Call<TrendingGeckoResponse>, t: Throwable) {
 
-                t.message?.let { Toast.makeText(this@MainActivity,it,Toast.LENGTH_SHORT).show() }
+                t.message?.let { Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show() }
             }
         })
 
     }
 
-    fun setupUI(cryptoCurrency: List<CryptoCurrency>){
+    fun setupUI(cryptoCurrency: List<CryptoCurrency>) {
         currencyRVModelArrayList.clear()
         currencyRVModelArrayList.addAll(cryptoCurrency)
         currencyRVAdapter.setCurrencyList(currencyRVModelArrayList)
         idRVCurrencies.adapter = currencyRVAdapter
-        swipeToDelete()
+     //   swipeToDelete()
 
     }
 
-    fun setupTrendingUI(item: List<Coin>){
+    fun setupTrendingUI(item: List<Coin>) {
         currencyRVModelArrayList.clear()
         trendingRVModelArrayList.clear()
         trendingRVModelArrayList.addAll(item)
         trendingRVAdapter.setTrendingList(trendingRVModelArrayList)
         idRVCurrencies.adapter = trendingRVAdapter
-        swipeToDeleteTrending()
+ //       swipeToDeleteTrending()
     }
 
-    private fun swipeToDelete() {
-        val swipeToDelete = object : SwipeToDelete(){
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                currencyRVAdapter.deleteItem(viewHolder.adapterPosition)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(swipeToDelete)
-        itemTouchHelper.attachToRecyclerView(idRVCurrencies)
-    }
+//    private fun swipeToDelete() {
+//        val swipeToDelete = object : SwipeToDelete() {
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                currencyRVAdapter.deleteItem(viewHolder.adapterPosition)
+//            }
+//        }
+//        val itemTouchHelper = ItemTouchHelper(swipeToDelete)
+//        itemTouchHelper.attachToRecyclerView(idRVCurrencies)
+//    }
 
-    private fun swipeToDeleteTrending() {
-        val swipeToDelete = object : SwipeToDelete(){
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                trendingRVAdapter.deleteItem(viewHolder.adapterPosition)
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(swipeToDelete)
-        itemTouchHelper.attachToRecyclerView(idRVCurrencies)
-    }
+//    private fun swipeToDeleteTrending() {
+//        val adapter = idRVCurrencies.adapter
+//
+//        if (adapter != null && adapter.itemCount > 0) {
+//            val swipeToDelete = object : SwipeToDelete() {
+//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                    trendingRVAdapter.deleteItem(viewHolder.adapterPosition)
+//                }
+//            }
+//            val itemTouchHelper = ItemTouchHelper(swipeToDelete)
+//            itemTouchHelper.attachToRecyclerView(idRVCurrencies)
+//        }
+//    }
 
-    private fun swipeToRight(){
-        val swipetoright = object : SwipeToRight(){
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-                currencyRVAdapter.showDialog(viewHolder.adapterPosition, this@MainActivity, currencyRVModelArrayList )
-
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(swipetoright)
-        itemTouchHelper.attachToRecyclerView(idRVCurrencies)
-
-    }
+//    private fun swipeToRight() {
+//        val adapter = idRVCurrencies.adapter
+//
+//        if (adapter != null && adapter.itemCount > 0) {
+//            val swipetoright = object : SwipeToRight() {
+//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//
+//                    currencyRVAdapter.showDialog(
+//                        viewHolder.adapterPosition,
+//                        this@MainActivity,
+//                        currencyRVModelArrayList
+//                    )
+//
+//
+//                }
+//            }
+//            val itemTouchHelper = ItemTouchHelper(swipetoright)
+//            itemTouchHelper.attachToRecyclerView(idRVCurrencies)
+//        }
+//    }
 
 
     fun showProgressBar() {
         spinkitlayout.visibility = View.VISIBLE
     }
 
-    fun hideProgressBar(){
+    fun hideProgressBar() {
         spinkitlayout.visibility = View.GONE
     }
 

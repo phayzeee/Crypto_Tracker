@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptotracker.R
 import com.example.cryptotracker.apiresponse.TopCoinsResponse.CryptoCurrency
@@ -77,34 +78,39 @@ class CurrencyRVAdapter: RecyclerView.Adapter<CurrencyRVAdapter.ViewHolder>() {
 
     fun showDialog(position: Int, context: Context, currencyRvModalArrayList: ArrayList<CryptoCurrency>) {
 
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.audit_report_dialog, null)
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(dialogView)
-        dialog.show()
+//        if(currencyRvModalArrayList.size == 0) {
+//            Toast.makeText(context,"Error", Toast.LENGTH_SHORT).show()
+//        } else {
+            val dialogView =
+                LayoutInflater.from(context).inflate(R.layout.audit_report_dialog, null)
+            val dialog = Dialog(context)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(dialogView)
+            dialog.show()
 
-        var abc = dialogView.findViewById<TextView>(R.id.idTVAudit)
+            var abc = dialogView.findViewById<TextView>(R.id.idTVAudit)
 
-        var auditReport : Boolean = currencyRvModalArrayList[position].isAudited
-        if (auditReport){
-            abc.text = "Audit : Approved"
-        }else {
-            abc.text = "Audit : Unapproved"
-        }
-
-        object : CountDownTimer(3000, 3000) {
-            override fun onTick(millisUntilFinished: Long) {
-                // TODO Auto-generated method stub
+            var auditReport: Boolean = currencyRvModalArrayList[position].isAudited
+            if (auditReport) {
+                abc.text = "Audit : Approved"
+            } else {
+                abc.text = "Audit : Unapproved"
             }
 
-            override fun onFinish() {
-                // TODO Auto-generated method stub
-                dialog.dismiss()
-            }
-        }.start()
+            object : CountDownTimer(3000, 3000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    // TODO Auto-generated method stub
+                }
 
-        notifyItemChanged(position)
+                override fun onFinish() {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss()
+                }
+            }.start()
+
+            notifyItemChanged(position)
+//        }
     }
 
 
